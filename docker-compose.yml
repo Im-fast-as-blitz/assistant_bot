@@ -1,0 +1,7 @@
+version: '3.7'
+services:
+  bot:
+    build:
+      dockerfile: DockerFile
+    command: sh -c "python -m main"
+    restart: always
