@@ -255,6 +255,10 @@ async def get_text_messages(message):
             await bot.send_message(message.from_user.id,
                                    "Ну вернемся мы куда-то назад)",
                                    reply_markup=keyboard_linal)
+            cursor.execute(
+                'UPDATE activity_bd SET matrix_a = ? WHERE user_id = ?',
+                ("NULL", message.from_user.id))
+            conn.commit()
             return
         cursor.execute("SELECT matrix_a FROM activity_bd WHERE user_id = ?",
                        (message.from_user.id,))
@@ -303,7 +307,8 @@ async def get_text_messages(message):
                                   call_type="change")
                 await bot.send_message(message.from_user.id, result_str,
                                        reply_markup=keyboard_linal)
-            except ValueError:
+            # except ValueError:
+            except Exception:
                 db_table_activity(user_id=message.from_user.id, activity_id=1,
                                   call_type="change")
                 await bot.send_message(message.from_user.id,
